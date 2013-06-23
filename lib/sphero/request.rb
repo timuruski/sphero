@@ -9,6 +9,7 @@ class Sphero
       @seq    = seq
       @data   = data
       @did    = 0x00
+      @body_template = 'C*'
     end
 
     def header
@@ -34,7 +35,7 @@ class Sphero
     end
 
     def packet_body
-      @data.pack 'C*'
+      @data.pack @body_template
     end
 
     def checksum
@@ -81,11 +82,15 @@ class Sphero
       def initialize seq, speed, heading, delay
         super(seq, [speed, heading, delay])
         @cid = 0x30
+        @body_template = 'CnC'
       end
+    end
 
-      private
-      def packet_body
-        @data.pack 'CnC'
+    class Heading < Sphero
+      def initialize seq, heading
+        super(seq, [heading])
+        @cid = 0x01
+        @body_template = 'n'
       end
     end
 
@@ -93,12 +98,7 @@ class Sphero
       def initialize seq, wakeup, macro
         super(seq, [wakeup, macro])
         @cid    = 0x22
-      end
-
-      private
-
-      def packet_body
-        @data.pack 'nC'
+        @body_template = 'nC'
       end
     end
   end

@@ -54,11 +54,6 @@ class Sphero
   end
 
   def heading= h
-    p :heading => h
-    heading = Request::Heading.new(@seq, h)
-    p Request::Heading
-    p heading
-    p heading.packet_body
     write Request::Heading.new(@seq, h)
   end
 
@@ -105,51 +100,8 @@ class Sphero
     if response.success?
       response
     else
-      raise response
+      p response
+      raise "Request failed"
     end
   end
-end
-
-if $0 == __FILE__
-  begin
-    s = Sphero.new "/dev/tty.Sphero-BRR-RN-SPP"
-  rescue Errno::EBUSY
-    retry
-  end
-
-  10.times {
-    p s.ping
-  }
-
-  trap(:INT) {
-    s.stop
-    exit!
-  }
-
-  #s.roll 100, 0
-
-  p s.user_led
-  exit
-  loop do
-    [0, 180].each do |dir|
-      s.heading = dir
-      sleep 10
-    end
-
-    #[
-    #  [0, 0, 0xFF],
-    #  [0xFF, 0, 0],
-    #  [0, 0xFF, 0],
-    #].each do |color|
-    #  s.rgb(*color)
-    #  sleep 5
-    #end
-  end
-
-  #36.times {
-  #  i = 10
-  #  p :step => i
-  #  s.heading = i
-  #  sleep 0.5
-  #}
 end

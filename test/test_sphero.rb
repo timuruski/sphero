@@ -11,4 +11,9 @@ class TestSphero < MiniTest::Unit::TestCase
     sleep = Sphero::Request::Sleep.new 0, 0, 0
     assert_equal 0x04, sleep.dlen
   end
+
+  def test_heading_dlen
+    heading = Sphero::Request::Heading.new 0, 0
+    assert_equal 0x03, heading.dlen
+  end
 end
