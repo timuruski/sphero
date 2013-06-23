@@ -41,6 +41,10 @@ class Sphero
     write Request::GetPowerState.new(@seq)
   end
 
+  def permanent_options
+    write Request::GetPermanentOptionFlags.new(@seq)
+  end
+
   def sleep wakeup = 0, macro = 0
     write Request::Sleep.new(@seq, wakeup, macro)
   end

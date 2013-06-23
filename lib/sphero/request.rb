@@ -66,17 +66,18 @@ class Sphero
       }
     end
 
-    SetBackLEDOutput = make_command Sphero, 0x21
-    SetRotationRate  = make_command Sphero, 0x03
-    SetRGB           = make_command Sphero, 0x20
-    GetRGB           = make_command Sphero, 0x22
+    SetBackLEDOutput        = make_command Sphero, 0x21
+    SetRotationRate         = make_command Sphero, 0x03
+    SetRGB                  = make_command Sphero, 0x20
+    GetRGB                  = make_command Sphero, 0x22
+    GetPermanentOptionFlags = make_command Sphero, 0x36
 
-    Ping             = make_command Request, 0x01
-    GetVersioning    = make_command Request, 0x02
-    GetBluetoothInfo = make_command Request, 0x11
-    SetAutoReconnect = make_command Request, 0x12
-    GetAutoReconnect = make_command Request, 0x13
-    GetPowerState    = make_command Request, 0x20
+    Ping                    = make_command Request, 0x01
+    GetVersioning           = make_command Request, 0x02
+    GetBluetoothInfo        = make_command Request, 0x11
+    SetAutoReconnect        = make_command Request, 0x12
+    GetAutoReconnect        = make_command Request, 0x13
+    GetPowerState           = make_command Request, 0x20
 
     class Roll < Sphero
       def initialize seq, speed, heading, delay

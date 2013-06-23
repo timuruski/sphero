@@ -84,5 +84,50 @@ class Sphero
       def g; body[1]; end
       def b; body[2]; end
     end
+
+    class GetPermanentOptionFlags < Response
+      SLEEP_ON_CHARGE              = 0x01 # bit 0
+      VECTOR_DRIVE                 = 0x02 # bit 1
+      DISABLE_SELF_LEVEL_ON_CHARGE = 0x04 # bit 2
+      TAIL_LIGHT_ALWAYS_ON         = 0x08 # bit 3
+      MOTION_TIMEOUTS              = 0x10 # bit 4
+      RETAIL_DEMO_MODE             = 0x20 # bit 6
+
+      def inspect
+        <<-EOS
+        Sleep on charge: #{sleep_on_charge?}
+        Vector drive: #{vector_drive?}
+        Self level on charge: #{self_level_on_charge?}
+        Tail light always on: #{tail_light?}
+        Motion timeouts: #{motion_timeouts?}
+        Retail demo mode: #{retail_demo_mode?}
+        EOS
+      end
+
+      def body
+        @body.unpack 'N'
+      end
+
+      def flags
+        body.first
+      end
+
+      def sleep_on_charge?; on? SLEEP_ON_CHARGE end
+      def vector_drive?; on? VECTOR_DRIVE end
+      def self_level_on_charge?; !(on? DISABLE_SELF_LEVEL_ON_CHARGE) end
+      def tail_light?; on? TAIL_LIGHT_ALWAYS_ON end
+      def motion_timeouts?; on? MOTION_TIMEOUTS end
+      def retail_demo_mode?; on? RETAIL_DEMO_MODE end
+
+      protected
+
+      def on?(mask)
+        (flags & mask) == mask
+      end
+
+      def off?(mask)
+        (flags & mask) == 0
+      end
+    end
   end
 end
